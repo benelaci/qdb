@@ -1,19 +1,21 @@
 <?
 /*    QDb * QueryDisburdener     *
-           version 1.0
+          version 1.0.1
 
 *      "Extended" component     */
 
 
-if (!class_exists('QDB_basic')) {
-	$include = dirname(__FILE__).'/QDB_Basic.php';
+namespace qdb;
+
+if (!class_exists('Basic')) {
+	$include = dirname(__FILE__).'/Basic.php';
 	if (file_exists($include))
 		require $include;
 	else
-		die('<i>QDB_Extended</i> requires <i>QDB_Basic</i>.');
+		die('<i>Extended</i> requires <i>Basic</i>.');
 }
 
-class QDB_Extended extends QDB_Basic
+class Extended extends Basic
 {
 	protected $spheres = []; // the variables related to the current subquery level
 

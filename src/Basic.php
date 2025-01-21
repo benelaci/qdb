@@ -1,9 +1,11 @@
 <?
 /*    QDb * QueryDisburdener     *
-           version 1.0
+          version 1.0.1
 
 *       "Basic" component       */
 
+
+namespace qdb;
 
 define ('QDB_SET_DEFAULT', 1);
 define ('QDB_DESC', 1);
@@ -12,7 +14,7 @@ define ('QDB_PREVIEW_HTML', 0);
 define ('QDB_PREVIEW_TEXT', false);
 define ('QDB_SUB', '[sub]');
 
-class QDb_Basic
+class Basic
 {
 	protected $extended = []; // has items if mode is Extended, is empty if it's Basic
 	protected $db; // the database connentor from outside
