@@ -1,6 +1,6 @@
 # qdb · Query Disburdener
 
-A very basic MySQLi query builder suitable for simple applications that use low-level database management. Its sole purpose is building clean queries via chained methods.
+A very basic MySQLi query builder for PHP, suitable for simple applications that use low-level database management. Its sole purpose is building clean queries via chained methods.
 
 It simply builds an sql script and executes the `mysqli_query()` function. That means, it doesn't create a result object, like query builders tipically do.
 
