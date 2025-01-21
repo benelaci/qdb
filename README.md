@@ -1,4 +1,4 @@
-# QDb · QueryDisburdener
+# qdb · Query Disburdener
 
 A very basic MySQLi query builder suitable for simple applications that use low-level database management. Its sole purpose is building clean queries via chained methods.
 
@@ -6,26 +6,44 @@ It simply builds an sql script and executes the `mysqli_query()` function. That 
 
 The components for simple and more complex queries are separated, further enhancing the lightweight nature.
 
-It's constantly under development, I gradually incorporate my arising needs or what I feel the urge to make.
-
 # 🟦 Initialization
 
-The tool needs a MySQLi object as it performs mysqli_query() in object-oriented style.
+The tool needs a MySQLi database connector object as it performs `mysqli_query()` in object-oriented style.
 
-Choose between the two versions of the tool according to the complexity of the queries you'll need.
+Choose between the two tool variants according to the complexity of the queries you'll need. There's **_Basic_** and there's **_Extended_**.
 
-### Extra lightweight version
+### With Composer
+
+The classes are not autoloaded, use `qdb_load()` instead to conviniently load the required variant:
+
+#### Basic variant
 
 ```php
-require 'path/to/QDb_Basic.php';
-$qdb = new QDb_Basic($mysqli_connector);
+qdb_load('basic');
+$qdb = new qdb\Basic($mysqli_connector);
 ```
 
-### Extended version
+#### Extended variant
 
 ```php
-require 'path/to/QDb_Extended.php';
-$qdb = new QDb_Extended($mysqli_connector);
+qdb_load('extended');
+$qdb = new qdb\Extended($mysqli_connector);
+```
+
+### Without Composer
+
+#### Basic variant
+
+```php
+require 'path/to/qdb/Basic.php';
+$qdb = new qdb\Basic($mysqli_connector);
+```
+
+#### Extended variant
+
+```php
+require 'path/to/qdb/Extended.php';
+$qdb = new qdb\Extended($mysqli_connector);
 ```
 
 ## Setting the initial values
@@ -92,7 +110,7 @@ $qdb->table('records')
 
 # 🟦 Main Methods
 
-The SQL statements `select()`, `insert()`, `update()`, `delete()` `select_distinct()`, are moved to the end of the method chain, as they are the *action methods* that perform the query.
+The SQL statements `select()`, `insert()`, `update()`, `delete()`, `select_distinct()`, are moved to the end of the method chain, as they are the *action methods* that perform the query.
 The table name, the column names and the values are put into different methods from these: `table()`, `columns()` and `values()`.
 
 ## table()
@@ -326,9 +344,9 @@ or
 $qdb->backticks(1)
 ```
 
-# 🟦 Extended version
+# 🟦 Extended variant
 
-The following features are only included in the Extended version.
+The following features are only included in the Extended variant.
 
 ## join()
 
