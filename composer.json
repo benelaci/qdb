@@ -1,6 +1,6 @@
 {
 	"name": "benelaci/qdb",
-	"description": "A very simple and lightweight query builder",
+	"description": "A very simple and lightweight query builder for PHP",
 	"type": "library",
 	"license": "MIT",
 	"autoload": {
