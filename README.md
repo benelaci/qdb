@@ -6,6 +6,27 @@ It simply builds an sql script and executes the `mysqli_query()` function. That 
 
 The components for simple and more complex queries are separated, further enhancing the lightweight nature.
 
+# 🟧 Website / Contact
+
+This README is a slightly short-spoken documentation. For assistance during use, I recommend the full documentation, available on the website:&thinsp;
+**https://blapp.hu/qdb**
+
+You can request new features or send feedback at:&thinsp; **bl![|](https://i.ibb.co/7WLcqb3/ch1.gif)blapp![|](https://i.ibb.co/R45zkLX/ch2.gif)hu**  
+Please mention whether your request requires immediate action.
+
+----
+# 🟩 Installation
+
+## Composer
+
+```bash
+composer require benelaci/qdb
+```
+
+## Manual Install
+
+Inside the current release, download &thinsp;__qdb-*[version]*\_manual-install.zip__
+
 # 🟦 Initialization
 
 The tool needs a MySQLi database connector object as it performs `mysqli_query()` in object-oriented style.
@@ -421,12 +442,3 @@ $result = $qdb
 	->having('c', '>= 10')
 	->select();
 ```
-
-----
-
-# 🟦 Website / Contact
-
-You can find a more verbose description of how to use it on the website:  
-https://blapp.hu/qdb
-
-You can request new features at&ensp;bl![|](https://i.ibb.co/7WLcqb3/ch1.gif)blapp![|](https://i.ibb.co/R45zkLX/ch2.gif)hu
