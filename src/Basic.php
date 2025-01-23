@@ -1,18 +1,17 @@
-<?
-/*    QDb * QueryDisburdener     *
-          version 1.0.1
+<?php
+/*    qdb - QueryDisburdener
+          version 1.0.2
 
-*       "Basic" component       */
+        "Basic" component
+
+
+When using qdb without Composer, and you don't need the qdb constants,
+you can calmly load this class instead of calling "qdb\load()".
+
+*/
 
 
 namespace qdb;
-
-define ('QDB_SET_DEFAULT', 1);
-define ('QDB_DESC', 1);
-define ('QDB_ESCAPE_FULL', 1);
-define ('QDB_PREVIEW_HTML', 0);
-define ('QDB_PREVIEW_TEXT', false);
-define ('QDB_SUB', '[sub]');
 
 class Basic
 {
@@ -24,9 +23,9 @@ class Basic
 	protected $default_table_alias; // if there is one, purge() sets $q['table_alias'] to this
 	protected $map=[]; // columns_except() need the list of all columns of the table, and saves the list into this
 	
-	// null:              preview() has not been called
-	// QDB_PREVIEW_HTML:  formatted HTML preview
-	// QDB_PREVIEW_TEXT: plain text preview;
+	// null:         preview() has not been called
+	// PREVIEW_HTML: formatted HTML preview
+	// PREVIEW_TEXT: plain text preview;
 	protected $preview_type=null;
 	
 	protected $_table_prefix='';
@@ -48,8 +47,8 @@ class Basic
 
 	public function table($table_str, $set_default=false)
 	{
-		// start subquery if name is QDB_SUB or [sub]
-		if ($table_str == QDB_SUB && $this->extended) {
+		// start subquery if name is SUB or '[sub]'
+		if ($table_str == '[sub]' && $this->extended) {
 			$this->q['table'] = $table_str;
 			$this->start_subquery('table');
 			return $this;
@@ -80,7 +79,7 @@ class Basic
 		// adding prefix
 		$table = $this->_table_prefix.$table;
 
-		if ($set_default===QDB_SET_DEFAULT) {
+		if ($set_default===1) { // 1 = SET_DEFAULT
 			$this->default_table = $table;
 			if (isset($table_alias))
 				$this->default_table_alias = $table_alias;
@@ -104,7 +103,7 @@ class Basic
 		}
 		else {
 			// full escaping, this is default
-			if ($escrule===QDB_ESCAPE_FULL) {
+			if ($escrule===1) { // 1 = ESCAPE_FULL
 				$ret = "'".$this->db->real_escape_string($value)."'";
 			}
 			// skip escaping
@@ -181,7 +180,7 @@ class Basic
 
 		$this->q['columns'] = array_merge($this->q['columns'], $columns);
 
-		if (in_array(QDB_SUB, $columns)) {
+		if (in_array('[sub]', $columns)) { // '[sub]' = SUB
 			$this->start_subquery('columns');
 		}
 
@@ -218,7 +217,7 @@ class Basic
 		// escape rule is not specified, use default escaping
 		}else{
 			$value = $p;
-			$escrule = QDB_ESCAPE_FULL;
+			$escrule = 1; // 1 = ESCAPE_FULL
 		}
 		return array_merge([$value, $escrule], compact('value', 'escrule'));
 	}
@@ -314,7 +313,7 @@ class Basic
 			
 			list ($oper, $value) = $this->operator_and_value($value_str);
 
-			if ($value==QDB_SUB && $this->extended) {
+			if ($value=='[sub]' && $this->extended) { // '[sub]' = SUB
 				$value_final = $value;
 			}else{
 				$value_final = $this->value([$value, $escrule]);
@@ -330,7 +329,7 @@ class Basic
 		}
 		$this->q['where'] = $where_word.$where;
 		
-		if ($value_final == QDB_SUB) {
+		if ($value_final == '[sub]') { // '[sub]' = SUB
 			$this->start_subquery('where');
 		}
 
@@ -572,7 +571,7 @@ class Basic
 	}
 	
 	public function backticks($p=true) {
-		if ($p===QDB_SET_DEFAULT) {
+		if ($p===1) { // SET_DEFAULT
 			$this->default_backticks = true;
 			$this->_backticks = true;
 		}
@@ -590,18 +589,18 @@ class Basic
 	// FEEDBACK METHODS
 	// ----------------
 
-	public function preview($preview_type=QDB_PREVIEW_HTML) { // when preview_type is set by builder method
+	public function preview($preview_type=0) { // called when preview_type is set by builder method. 0 = PREVIEW_HTML
 		$this->preview_type = $preview_type;
 		return $this;
 	}
 
-	private function handle_previewType($preview_type) { // when preview_type is set by action method argument
-		if ($preview_type!==null)
+	private function handle_previewType($preview_type) { // called at the beginning of each action method
+		if ($preview_type!==null) // if not null, $preview_type was supplied as argument to the action method
 			$this->preview_type = $preview_type;
 	}
 	
 	protected function execute_preview() {
-		if ($this->preview_type === QDB_PREVIEW_HTML) {
+		if ($this->preview_type === 0) { // 0 = PREVIEW_HTML
 			$str = array_map(
 				function ($s, $index) {
 					if ($s=='') {
@@ -637,7 +636,7 @@ class Basic
 					$s = str_replace("\t", '&nbsp; &nbsp; ', $s);
 					
 					// subquery lines were already imploded with \n in finish_subquery(),
-					// because the QDB_SUB mark was replaced by them
+					// because the SUB mark was replaced by them
 					$s = str_replace("\n", '<br>', $s);
 
 					$s = "<style>\n".implode("\n", $style)."\n</style>\n\n" . $s;

@@ -1,11 +1,21 @@
 {
 	"name": "benelaci/qdb",
-	"description": "A very simple and lightweight query builder for PHP",
+	"description": "A very simple and lightweight query builder",
+	"version": "1.0.2",
 	"type": "library",
+	"keywords": ["query builder", "database", "sql", "mysqli"],
+	"homepage": "https://blapp.hu/qdb",
+	"time": "2025-01-23",
 	"license": "MIT",
+	"authors": [
+		{
+			"name": "Laci Bene",
+			"role": "Developer"
+		}
+	],
 	"autoload": {
 		"files": [
-			"src/loader.php"
+			"src/init.php"
 		]
 	},
 	"require": {

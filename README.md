@@ -33,37 +33,29 @@ The tool needs a MySQLi database connector object as it performs `mysqli_query()
 
 Choose between the two tool variants according to the complexity of the queries you'll need. There's **_Basic_** and there's **_Extended_**.
 
-### With Composer
+## Loading the variant
 
-The classes are not autoloaded, use `qdb_load()` instead to conviniently load the required variant:
+**Composer:** Even if you use Composer, the classes are not autoloaded. That's because it's your choice which variant you want to load.
 
-#### Basic variant
+**No composer:** Include this single file:
+```php
+require 'path/to/qdb/init.php';
+```
+
+In all cases, use `qdb\load()` to conviniently load the required variant.
+
+
+### Basic variant
 
 ```php
-qdb_load('basic');
+qdb\load('basic');
 $qdb = new qdb\Basic($mysqli_connector);
 ```
 
-#### Extended variant
+### Extended variant
 
 ```php
-qdb_load('extended');
-$qdb = new qdb\Extended($mysqli_connector);
-```
-
-### Without Composer
-
-#### Basic variant
-
-```php
-require 'path/to/qdb/Basic.php';
-$qdb = new qdb\Basic($mysqli_connector);
-```
-
-#### Extended variant
-
-```php
-require 'path/to/qdb/Extended.php';
+qdb\load('extended');
 $qdb = new qdb\Extended($mysqli_connector);
 ```
 
@@ -296,11 +288,11 @@ The formatting can be disabled by adding a `false` or a `QDB_PREVIEW_TEXT` argum
 ### Echo plaintext
 
 ```php
-->preview(false)
+->preview(QDB_PREVIEW_TEXT)
 ```
 
 ```php
-->preview(QDB_PREVIEW_TEXT)
+->preview(false)
 ```
 
 ## Usage 2 – As argument
@@ -310,21 +302,21 @@ Give the argument to the *action method*.
 ### Echo formatted HTML
 
 ```php
-->select(0);
+->select(QDB_PREVIEW_HTML);
 ```
 
 ```php
-->select(QDB_PREVIEW_HTML);
+->select(0);
 ```
 
 ### Echo plaintext
 
 ```php
-->select(false);
+->select(QDB_PREVIEW_TEXT);
 ```
 
 ```php
-->select(QDB_PREVIEW_TEXT);
+->select(false);
 ```
 
 # 🟦 Other methods
@@ -442,3 +434,14 @@ $result = $qdb
 	->having('c', '>= 10')
 	->select();
 ```
+
+# Constants
+
+| Global variant   | Namespaced variant | Value   |
+|------------------|--------------------|---------|
+| QDB_SET_DEFAULT  | qdb\SET_DEFAULT    | 1       |
+| QDB_DESC         | qdb\DESC           | 1       |
+| QDB_ESCAPE_FULL  | qdb\ESCAPE_FULL    | 1       |
+| QDB_PREVIEW_HTML | qdb\PREVIEW_HTML   | 0       |
+| QDB_PREVIEW_TEXT | qdb\PREVIEW_TEXT   | false   |
+| QDB_SUB          | qdb\SUB            | '[sub]' |

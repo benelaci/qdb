@@ -1,16 +1,23 @@
-<?
-/*    QDb * QueryDisburdener     *
-          version 1.0.1
+<?php
+/*    qdb - QueryDisburdener
+          version 1.0.2
 
-*      "Extended" component     */
+       "Extended" component
+
+
+When using qdb without Composer, and you don't need the qdb constants,
+you can calmly load this class instead of calling "qdb\load()".
+Just be sure "Basic.php" is present in this directory.
+
+*/
 
 
 namespace qdb;
 
 if (!class_exists('Basic')) {
-	$include = dirname(__FILE__).'/Basic.php';
-	if (file_exists($include))
-		require $include;
+	$file__Basic = __DIR__.'/Basic.php';
+	if (file_exists($file__Basic))
+		require $file__Basic;
 	else
 		die('<i>Extended</i> requires <i>Basic</i>.');
 }
@@ -107,7 +114,7 @@ class Extended extends Basic
 				"\n".
 			$t.")" . ($as ? " AS ".$as : '');
 
-		$this->q[$opening_keyword] = str_replace(QDB_SUB, $replace, $this->q[$opening_keyword]);
+		$this->q[$opening_keyword] = str_replace('[sub]', $replace, $this->q[$opening_keyword]); // '[sub]' = SUB
 
 		return $this;
 	}
